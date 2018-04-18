@@ -5,22 +5,23 @@ import org.slf4j.Logger;
 public class HattrickScore implements IScore {
 	
 	private IScore score;
-	private int[] hattrickCounter = new int[2];
+	private int HattrickHome;
+	private int HattrickGuest;
 	
 	public HattrickScore (IScore score) {
 		this.score = score;
 		//homescore
-		hattrickCounter[0] = 0;
+		HattrickHome = 0;
 		
 		//Guestscore
-		hattrickCounter[1] = 0;
+		HattrickGuest = 0;
 	}
 	@Override
 	public void incrementHomeScore() {
 		score.incrementHomeScore();
-		hattrickCounter[0]++;
-		if(hattrickCounter[0] == 3) {
-			hattrickCounter[0] = 0;
+		HattrickHome++;
+		if(HattrickHome == 3) {
+			HattrickHome = 0;
 			score.getLogger().debug("HATTRICK");
 			
 		}
@@ -29,9 +30,9 @@ public class HattrickScore implements IScore {
 	@Override
 	public void incrementGuestScore() {
 		score.incrementGuestScore();
-		hattrickCounter[1]++;
-		if(hattrickCounter[1] == 3) {
-			hattrickCounter[1] = 0;
+		HattrickGuest++;
+		if(HattrickGuest == 3) {
+			HattrickGuest = 0;
 			score.getLogger().debug("HATTRICK");
 			
 		}
