@@ -24,13 +24,13 @@ public class Display extends JFrame {
 	private static final Font SCORE_FONT = new Font("Sans", Font.BOLD, 150);
 	private static final Font SMALL_FONT = new Font("Sans", Font.BOLD, 15);
 
-	private Score score;
+	private IScore score;
 	private JLabel homeScore;
 	private JLabel guestScore;
 	private JButton refreshButton;
 	private JToggleButton autoRefresh;
 
-	public Display(Score score, String title) {
+	public Display(IScore score, String title) {
 		super(title);
 		this.score = score;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

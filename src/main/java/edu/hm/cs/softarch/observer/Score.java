@@ -72,4 +72,10 @@ public class Score implements IScore {
 		return guestScore;
 	}
 
+	@Override
+	public Logger getLogger() {
+		// TODO Auto-generated method stub
+		return this.LOG;
+	}
+
 }

@@ -20,7 +20,7 @@ public class Steuerung extends JFrame  {
 	private static final Font BUTTON_FONT = new Font("Sans", Font.BOLD, 30);
 	private static final Font BUTTON_FONT_SM = new Font("Sans", Font.BOLD, 15);
 
-	private Score score = new Score();
+	private IScore score;
 	private JButton homeScoreButton;
 	private JButton guestScoreButton;
 	private JButton undoButton;
@@ -32,8 +32,8 @@ public class Steuerung extends JFrame  {
 		createPanel();
 		this.setVisible(true);
 		// Add Hattrick Score insted of normal Score!
-		this.score = new HattrickScore(score);
-
+		//this.score = new Score();
+		this.score = new HattrickScore(new Score());
 		// Aktion für Hochzählen des Heimzählers
 		homeScoreButton.addActionListener(e -> {
 			score.incrementHomeScore();
