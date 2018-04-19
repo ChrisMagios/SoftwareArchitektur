@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -18,7 +20,7 @@ import javax.swing.SwingConstants;
  * 
  * @author katz.bastian
  */
-public class Display extends JFrame {
+public class Display extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private static final Font SCORE_FONT = new Font("Sans", Font.BOLD, 150);
@@ -39,8 +41,7 @@ public class Display extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				// Code hier wird beim Schließen des Fensters ausgeführt
-				// TODO: Deregistrierung beim Ergebnis
+				score.deRegisterObserver(Display.this);
 				super.windowClosing(e);
 			}
 		});
@@ -56,9 +57,9 @@ public class Display extends JFrame {
 		// Aktion für Auto-Refresh-Toggle
 		autoRefresh.addActionListener(e -> {
 			if (autoRefresh.isSelected()) {
-				// TODO: Registierung beim Ergebnis
+				score.registerObserver(this);
 			} else {
-				// TODO: Deregistrierung beim Ergebnis
+				score.deRegisterObserver(this);
 			}
 		});
 		this.pack();
@@ -146,6 +147,9 @@ public class Display extends JFrame {
 		return caption;
 	}
 
-	
-
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		homeScore.setText(String.valueOf(score.getHomeScore()));
+		guestScore.setText(String.valueOf(score.getGuestScore()));
+	}
 }

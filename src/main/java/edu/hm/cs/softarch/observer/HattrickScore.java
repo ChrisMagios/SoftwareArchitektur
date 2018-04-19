@@ -1,8 +1,11 @@
 package edu.hm.cs.softarch.observer;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import org.slf4j.Logger;
 
-public class HattrickScore implements IScore {
+public class HattrickScore extends Observable implements IScore {
 	
 	private IScore score;
 	private int HattrickHome;
@@ -61,7 +64,12 @@ public class HattrickScore implements IScore {
 		// TODO Auto-generated method stub
 		return score.getLogger();
 	}
-	
-	
-
+	@Override
+	public void registerObserver(Observer display) {
+		score.registerObserver(display);
+	}
+	@Override
+	public void deRegisterObserver(Observer display) {
+		score.deRegisterObserver(display);
+	}
 }

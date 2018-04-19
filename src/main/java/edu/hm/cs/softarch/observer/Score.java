@@ -2,6 +2,8 @@ package edu.hm.cs.softarch.observer;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -13,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author katz.bastian
  */
-public class Score implements IScore {
+public class Score extends Observable implements IScore {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Score.class);
 
@@ -28,15 +30,21 @@ public class Score implements IScore {
 
 	/** Erhöht den Torzähler der Heimmannschaft */
 	public void incrementHomeScore() {
+		setChanged();
 		saveState();
 		homeScore++;
+		notifyObservers(homeScore);		
+		
 		LOG.debug("Home score set to {}, now at {}:{}.", homeScore, homeScore, guestScore);
 	}
 
 	/** Erhöht den Torzähler der Gastmannschaft */
 	public void incrementGuestScore() {
+		setChanged();
 		saveState();
 		guestScore++;
+		notifyObservers(guestScore);
+		
 		LOG.debug("Guest score set to {}, now at {}:{}.", guestScore, homeScore, guestScore);
 	}
 
@@ -59,6 +67,9 @@ public class Score implements IScore {
 			homeScore = previousState.getLeft();
 			guestScore = previousState.getRight();
 		}
+		setChanged();
+		notifyObservers(homeScore);
+		notifyObservers(guestScore);
 		LOG.debug("Score reset to {}:{}.", homeScore, guestScore);
 	}
 
@@ -76,6 +87,16 @@ public class Score implements IScore {
 	public Logger getLogger() {
 		// TODO Auto-generated method stub
 		return this.LOG;
+	}
+
+	@Override
+	public void registerObserver(Observer display) {
+		this.addObserver(display);
+	}
+
+	@Override
+	public void deRegisterObserver(Observer display) {
+		this.deleteObserver(display);
 	}
 
 }
